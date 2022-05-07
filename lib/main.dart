@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_completed_guide/answer.dart';
 import './question.dart';
 
 void main() => runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -25,11 +26,20 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s is your farvorite color?',
-      'What\'s your favorite animal?'
+    const questions = [
+      {
+        'questionText': 'What\'s is your farvorite color?',
+        'answers': ['Black', 'Red', 'Green', 'White']
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['Rabbit', 'Snake', 'Elephant', 'Lion']
+      },
+      {
+        'questionText': 'Who\'s your favorite instructor?',
+        'answers': ['Max', 'Mat', 'Mae', 'Mea']
+      }
     ];
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -37,19 +47,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            Question(questions[_questionIndex]),
-            RaisedButton(
-              onPressed: answerQuestion,
-              child: const Text('Answer 1'),
-            ),
-            RaisedButton(
-              onPressed: answerQuestion,
-              child: const Text('Answer 2'),
-            ),
-            RaisedButton(
-              onPressed: answerQuestion,
-              child: const Text('Answer 3'),
-            ),
+            Question(questions[_questionIndex]['questionText'].toString()),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            })
           ],
         ),
       ),
